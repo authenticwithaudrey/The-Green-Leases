@@ -25,14 +25,16 @@ import {getDatabase,ref,onValue,runTransaction,set,get} from 'https://www.gstati
 import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
 
 // This configuration belongs to The Green Firebase project.
-const firebaseConfig={
- apiKey:'AIzaSyD8j5B04XMeerRmx0W0HQJIVf2Q-wUB36cc',
- authDomain:'the-green-live-leasing.firebaseapp.com',
- databaseURL:'https://the-green-live-leasing-default-rtdb.firebaseio.com',
- projectId:'the-green-live-leasing',
- storageBucket:'the-green-live-leasing.firebasestorage.app',
- messagingSenderId:'913835748665',
- appId:'1:913835748665:web:57212555cba230fd768ce8'
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD8j5BO4XMeeRmx0W0HQJIVf2Q-wUB366c",
+  authDomain: "the-green-live-leasing.firebaseapp.com",
+  databaseURL: "https://the-green-live-leasing-default-rtdb.firebaseio.com",
+  projectId: "the-green-live-leasing",
+  storageBucket: "the-green-live-leasing.firebasestorage.app",
+  messagingSenderId: "913835748665",
+  appId: "1:913835748665:web:57212555cba230fd768ce8",
+  measurementId: "G-P3MLFCRV9Q"
 };
 // Put the SAME UID in the Firebase Database Rules; the website never contains admin privileges.
 const blank=()=>({goal:50,count:0,totalMs:43200000,remainingMs:43200000,running:false,lastTick:null,history:[]});
