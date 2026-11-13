@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Green | Lease Race</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1014;--panel:#171e25;--line:#35424b;--white:#f4f6f2;--muted:#afbdc2;--mint:#b9f36e;--red:#ff737b}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% 0%,#1a3030,transparent 50%),var(--bg);color:var(--white);font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif;min-height:100vh}button,input{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:13px 19px;font-weight:800}button:disabled{opacity:.45;cursor:not-allowed}input{width:100%;background:#0f171d;color:white;border:1px solid var(--line);border-radius:9px;padding:12px}label{display:block;color:var(--muted);font-size:13px;margin:10px 0 6px}.wrap{max-width:1200px;margin:auto;padding:30px 20px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:28px}.kicker{font-size:13px;letter-spacing:.19em;color:var(--mint);font-weight:800}.title{margin:4px 0;font-size:clamp(32px,5vw,55px);letter-spacing:-.06em}.status{border:1px solid var(--line);border-radius:99px;padding:10px 15px;font-size:13px;font-weight:800}.dashboard{display:grid;grid-template-columns:1.1fr 1fr;gap:20px}.panel{border:1px solid var(--line);background:var(--panel);padding:26px;border-radius:23px}.eyebrow{color:var(--muted);font-weight:800;font-size:12px;letter-spacing:.15em;text-transform:uppercase}.timer{font-size:clamp(52px,8vw,105px);font-weight:900;letter-spacing:-.08em;font-variant-numeric:tabular-nums;margin:24px 0 12px;white-space:nowrap}.urgent{color:var(--red)}.sub{color:var(--muted);font-size:14px;margin-bottom:25px}.remaining{font-weight:950;font-size:clamp(90px,12vw,165px);line-height:1.1;letter-spacing:-.09em;color:var(--mint);font-variant-numeric:tabular-nums}.remain-text{font-size:23px;font-weight:850}.progress-head{display:flex;justify-content:space-between;color:var(--muted);margin:28px 0 12px}.track{height:17px;border-radius:99px;background:#344149;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#92d855,var(--mint));width:0%;transition:width .3s}.btnrow{display:flex;flex-wrap:wrap;gap:10px}.primary{background:var(--mint);color:#18200f}.secondary{background:#26333b;border:1px solid var(--line);color:var(--white)}.lease-controls{display:flex;gap:12px;margin-top:26px}.lease-controls button{font-size:23px;padding:19px}.lease-controls .primary{flex:1}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}.stat{border:1px solid var(--line);border-radius:17px;background:#162027;padding:18px}.val{font-size:clamp(22px,3vw,37px);font-weight:900}.cap{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:6px}.bottom{display:grid;grid-template-columns:1fr 1fr;gap:20px}.fields{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}.note{color:var(--muted);font-size:13px;line-height:1.6}.message{color:var(--mint);font-size:13px;min-height:20px}.history{list-style:none;margin:8px 0;padding:0;max-height:180px;overflow:auto}.history li{font-size:13px;border-bottom:1px solid #30404a;padding:7px 0;color:var(--muted)}.auth{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.auth input{width:185px}.hidden{display:none!important}@media(max-width:800px){.dashboard,.bottom{grid-template-columns:1fr}.panel{padding:20px}.wrap{padding:20px 12px}.timer{font-size:clamp(48px,11vw,90px)}.stats{gap:7px}.stat{padding:12px}.val{font-size:25px}.fields{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+<header class="top"><div><div class="kicker">THE GREEN · LEASING CHALLENGE</div><h1 class="title">THE LEASE RACE.</h1></div><div id="status" class="status">CONNECTING…</div></header>
+<section class="dashboard">
+ <div class="panel"><div class="eyebrow">Business time remaining</div><div id="timer" class="timer">12:00:00</div><div id="timerHelp" class="sub">Pause when the office closes.</div><div class="btnrow admin-only hidden"><button id="toggle" class="primary">▶ Start countdown</button><button id="resetTime" class="secondary">↺ Reset timer</button></div></div>
+ <div class="panel"><div class="eyebrow">Leases left to close</div><div id="remaining" class="remaining">50</div><div id="remainText" class="remain-text">LET’S GET LEASING!</div><div class="progress-head"><span><b id="count">0</b> / <span id="goalLabel">50</span> leases</span><span id="pct">0%</span></div><div class="track"><div id="fill" class="fill"></div></div><div class="lease-controls admin-only hidden"><button id="minus" class="secondary">− 1</button><button id="plus" class="primary">+ 1 LEASE</button></div></div>
+</section>
+<section class="stats"><div class="stat"><div class="val" id="elapsed">0h 00m</div><div class="cap">Business time used</div></div><div class="stat"><div class="val" id="rate">4.2</div><div class="cap">Leases per hour needed</div></div><div class="stat"><div class="val" id="pace">—</div><div class="cap">Current leases / hour</div></div></section>
+<section class="bottom">
+ <div class="panel"><div class="eyebrow">Admin access</div><p class="note" id="viewNotice">Everyone can watch live. Only the authorized admin can update the race.</p><div id="login" class="auth"><input id="email" type="email" placeholder="Admin email" autocomplete="username"><input id="password" type="password" placeholder="Password" autocomplete="current-password"><button id="signIn" class="primary">Sign in</button></div><div id="signedIn" class="hidden"><div class="btnrow"><span class="note" id="signedEmail"></span><button id="signOut" class="secondary">Sign out</button></div></div><div id="settings" class="admin-only hidden"><div class="fields"><div><label for="goal">Lease goal</label><input id="goal" type="number" min="1" value="50"></div><div><label for="current">Leases signed</label><input id="current" type="number" min="0" value="0"></div><div><label for="hours">Total hours</label><input id="hours" type="number" min="0.1" step="0.5" value="12"></div></div><div class="btnrow"><button id="apply" class="secondary">Apply settings</button><button id="resetAll" class="secondary">Reset everything</button></div></div><p class="message" id="message"></p></div>
+ <div class="panel"><div class="eyebrow">Challenge log</div><p class="note" id="summary">Everyone is working toward 50 leases.</p><ul class="history" id="history"></ul><p class="note">Countdown and totals sync live on every screen. Only admin edits the challenge.</p></div>
+</section></main>
+<script type="module">
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js';
+import {getDatabase,ref,onValue,runTransaction,set,get} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-database.js';
+import {getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut} from 'https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js';
+
+// This configuration belongs to The Green Firebase project.
+const firebaseConfig={
+ apiKey:'AIzaSyD8j5B04XMeerRmx0W0HQJIVf2Q-wUB36cc',
+ authDomain:'the-green-live-leasing.firebaseapp.com',
+ databaseURL:'https://the-green-live-leasing-default-rtdb.firebaseio.com',
+ projectId:'the-green-live-leasing',
+ storageBucket:'the-green-live-leasing.firebasestorage.app',
+ messagingSenderId:'913835748665',
+ appId:'1:913835748665:web:57212555cba230fd768ce8'
+};
+// Put the SAME UID in the Firebase Database Rules; the website never contains admin privileges.
+const blank=()=>({goal:50,count:0,totalMs:43200000,remainingMs:43200000,running:false,lastTick:null,history:[]});
+const $=id=>document.getElementById(id);
+let state=blank(),loaded=false,admin=false,offset=0;
+const fmt=ms=>{let s=Math.ceil(Math.max(0,ms)/1000);return [Math.floor(s/3600),Math.floor(s%3600/60),s%60].map(x=>String(x).padStart(2,'0')).join(':')};
+const minutes=ms=>`${Math.floor(ms/3600000)}h ${String(Math.floor(ms%3600000/60000)).padStart(2,'0')}m`;
+const now=()=>Date.now()+offset;
+const remaining=()=>state.running&&state.lastTick!==null?Math.max(0,state.remainingMs-Math.max(0,now()-state.lastTick)):state.remainingMs;
+const notice=s=>$('message').textContent=s;
+function draw(){if(!loaded)return;let left=Math.max(0,state.goal-state.count),ms=remaining(),used=state.totalMs-ms,won=left===0,expired=ms===0&&!won,pct=Math.min(100,100*state.count/state.goal);
+$('timer').textContent=fmt(ms);$('timer').classList.toggle('urgent',ms>0&&ms<3600000);$('remaining').textContent=left;$('count').textContent=state.count;$('goalLabel').textContent=state.goal;$('pct').textContent=Math.round(pct)+'%';$('fill').style.width=pct+'%';$('elapsed').textContent=minutes(used);$('rate').textContent=left===0?'0':ms>0?(left/(ms/3600000)).toFixed(1):'—';$('pace').textContent=used>0?(state.count/(used/3600000)).toFixed(1):'—';$('remainText').textContent=won?'🏆 GOAL ACHIEVED!':expired?'⏰ TIME IS UP!':left<=10?'SO CLOSE — KEEP GOING!':'LET’S GET LEASING!';$('status').textContent=won?'GOAL REACHED':expired?'TIME EXPIRED':state.running?'● COUNTDOWN LIVE':used>0?'PAUSED':'READY TO START';$('timerHelp').textContent=state.running?'Clock is ticking! Pause when business hours end.':'The clock is paused.';$('toggle').textContent=state.running?'Ⅱ Pause countdown':'▶ Start / Resume countdown';$('toggle').disabled=expired;$('summary').textContent=`${state.count} signed · ${left} remaining · ${Math.round(pct)}% of the goal complete.`;
+$('history').replaceChildren(...(state.history||[]).slice(0,9).map(e=>{let li=document.createElement('li');li.textContent=e;return li}));if(document.activeElement!==$('goal'))$('goal').value=state.goal;if(document.activeElement!==$('current'))$('current').value=state.count;if(document.activeElement!==$('hours'))$('hours').value=state.totalMs/3600000;
+}
+function stamp(){return new Date().toLocaleTimeString([],{hour:'numeric',minute:'2-digit'})}
+function addLog(s,old){return [s+' · '+stamp(),...(old||[])].slice(0,30)}
+try{
+ const app=initializeApp(firebaseConfig),db=getDatabase(app),auth=getAuth(app),race=ref(db,'leaseRace'),timeOffset=ref(db,'.info/serverTimeOffset');
+ onValue(timeOffset,s=>{offset=s.val()||0});
+ onValue(race,s=>{loaded=true;state={...blank(),...(s.val()||{})};draw();$('viewNotice').textContent='Live dashboard connected. Only the authorized admin can change the race.'},e=>{$('status').textContent='DATABASE ACCESS ERROR';notice('Cannot read database. Check Firebase Realtime Database Rules and database URL. '+e.message)});
+ onAuthStateChanged(auth,u=>{admin=!!u;$('login').classList.toggle('hidden',!!u);$('signedIn').classList.toggle('hidden',!u);$('signedEmail').textContent=u?`Signed in: ${u.email}`:'';document.querySelectorAll('.admin-only').forEach(el=>el.classList.toggle('hidden',!u));notice(u?'Signed in. Firebase rules determine whether this account can edit.':'');});
+ $('signIn').onclick=async()=>{try{await signInWithEmailAndPassword(auth,$('email').value.trim(),$('password').value);$('password').value=''}catch(e){notice('Sign-in failed: '+e.message)}};
+ $('signOut').onclick=()=>signOut(auth);
+ async function change(fn){if(!admin){notice('Sign in to make changes.');return}try{await runTransaction(race,raw=>{const s={...blank(),...(raw||{})};return fn(s)||s},{applyLocally:false});notice('Saved — every viewer will update automatically.')}catch(e){notice('Change not saved. Check that your UID is authorized in Firebase Rules. '+e.message)}}
+ $('plus').onclick=()=>change(s=>{s.count++;s.history=addLog('+1 lease · '+s.count+'/'+s.goal,s.history)});
+ $('minus').onclick=()=>change(s=>{s.count=Math.max(0,s.count-1);s.history=addLog('−1 lease · '+s.count+'/'+s.goal,s.history)});
+ $('toggle').onclick=()=>change(s=>{let ms=s.running&&s.lastTick!==null?Math.max(0,s.remainingMs-Math.max(0,now()-s.lastTick)):s.remainingMs;s.remainingMs=ms;s.running=!s.running&&ms>0;s.lastTick=s.running?now():null;s.history=addLog(s.running?'Countdown started':'Countdown paused',s.history)});
+ $('resetTime').onclick=()=>{if(confirm('Reset the 12-hour countdown? Lease total stays the same.'))change(s=>{s.running=false;s.remainingMs=s.totalMs;s.lastTick=null;s.history=addLog('Timer reset',s.history)})};
+ $('apply').onclick=()=>{let g=Number($('goal').value),c=Number($('current').value),h=Number($('hours').value);if(!Number.isInteger(g)||g<1||!Number.isInteger(c)||c<0||!Number.isFinite(h)||h<=0){notice('Enter a positive goal, valid lease count and hours.');return}change(s=>{let ms=s.running&&s.lastTick!==null?Math.max(0,s.remainingMs-Math.max(0,now()-s.lastTick)):s.remainingMs;let newTotal=Math.round(h*3600000);s.remainingMs=Math.min(newTotal,Math.max(0,ms+newTotal-s.totalMs));s.totalMs=newTotal;s.goal=g;s.count=c;s.lastTick=s.running?now():null;s.history=addLog('Settings updated',s.history)})};
+ $('resetAll').onclick=()=>{if(confirm('Reset ALL lease progress and the timer?'))change(s=>Object.assign(s,blank()))};
+ // Initialize only with authenticated admin, so the public page never creates records.
+ onAuthStateChanged(auth,async u=>{if(!u)return;try{const snapshot=await get(race);if(!snapshot.exists())await set(race,blank())}catch(e){notice('Signed in, but initializing was blocked. Check your Firebase Rules. '+e.message)}});
+}catch(e){$('status').textContent='CONNECTION ERROR';notice('Firebase configuration or connection error: '+e.message)}
+setInterval(draw,500);
+</script>
+</body></html>
